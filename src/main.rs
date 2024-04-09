@@ -52,9 +52,9 @@ fn process_file(file_name: &str) -> Result<(), Box<dyn Error>> {
 fn make_file_writer(file_name_workbook: &str, list_name: Option<&str>) -> Result<BufWriter<File>, io::Error> {
     let file_name_writer_base = file_name_workbook.rsplit_once(".").unwrap().0;
     let file_name_writer = if let Some(list_name) = list_name {
-        format!("{file_name_writer_base}#{list_name}.txt")
+        format!("{file_name_writer_base}#{list_name}.csv")
     } else {
-        format!("{file_name_writer_base}.txt")
+        format!("{file_name_writer_base}.csv")
     };
     let f = fs::File::create(file_name_writer)?;
     Ok(BufWriter::new(f))
