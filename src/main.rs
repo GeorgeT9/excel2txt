@@ -30,9 +30,14 @@ fn main() {
 
 fn process_file(file_name: &str) -> Result<(), Box<dyn Error>> {
     let mut workbook = open_workbook_auto(file_name)?;
+    let number_lists = workbook.sheet_names().len();
     for list_name in workbook.sheet_names() {
         if let Ok(r) = workbook.worksheet_range(&list_name) {
-            let mut writer = make_file_writer(&file_name, Some(&list_name))?;
+            let mut writer = if number_lists > 1 {
+                make_file_writer(&file_name, Some(&list_name))?
+            } else {
+                make_file_writer(&file_name, None)?
+            };
             for row in r.rows() {
                 let line = row
                     .iter()
